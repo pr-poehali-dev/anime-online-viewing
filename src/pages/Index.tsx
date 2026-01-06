@@ -12,6 +12,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
 
   const genres = [
     'Экшен', 'Романтика', 'Комедия', 'Фэнтези', 'Драма', 'Меха', 'Исэкай', 'Школа', 'Спорт', 'Психология'
@@ -21,66 +24,102 @@ const Index = () => {
     {
       id: 1,
       title: 'Атака титанов: Финал',
+      originalTitle: 'Shingeki no Kyojin: The Final Season',
       genre: 'Экшен',
+      genres: ['Экшен', 'Драма', 'Фэнтези'],
       rating: 9.2,
       episodes: 12,
       currentEpisode: 8,
       status: 'ongoing',
+      year: 2023,
+      studio: 'MAPPA',
+      voice: ['AniLibria', 'AniDUB', 'Субтитры'],
+      type: 'ТВ Сериал',
       nextEpisode: '2 дня',
       image: 'https://via.placeholder.com/300x420/7E69AB/FFFFFF?text=Attack+on+Titan'
     },
     {
       id: 2,
       title: 'Магическая битва 3',
+      originalTitle: 'Jujutsu Kaisen Season 3',
       genre: 'Экшен',
+      genres: ['Экшен', 'Фэнтези', 'Сёнен'],
       rating: 8.9,
       episodes: 24,
       currentEpisode: 15,
       status: 'ongoing',
+      year: 2024,
+      studio: 'MAPPA',
+      voice: ['AniLibria', 'AniDUB'],
+      type: 'ТВ Сериал',
       nextEpisode: '4 дня',
       image: 'https://via.placeholder.com/300x420/9b87f5/FFFFFF?text=Jujutsu+Kaisen'
     },
     {
       id: 3,
       title: 'Ванпанчмен 3',
+      originalTitle: 'One Punch Man Season 3',
       genre: 'Экшен',
+      genres: ['Экшен', 'Комедия', 'Сёнен'],
       rating: 8.7,
       episodes: 12,
       currentEpisode: 5,
       status: 'ongoing',
+      year: 2024,
+      studio: 'Madhouse',
+      voice: ['AniDUB', 'Субтитры'],
+      type: 'ТВ Сериал',
       nextEpisode: '1 день',
       image: 'https://via.placeholder.com/300x420/0EA5E9/FFFFFF?text=One+Punch+Man'
     },
     {
       id: 4,
       title: 'Клинок рассекающий демонов',
+      originalTitle: 'Kimetsu no Yaiba',
       genre: 'Фэнтези',
+      genres: ['Фэнтези', 'Экшен', 'Сёнен'],
       rating: 9.0,
       episodes: 26,
       currentEpisode: 26,
       status: 'completed',
+      year: 2019,
+      studio: 'ufotable',
+      voice: ['AniLibria', 'AniDUB', 'Субтитры'],
+      type: 'ТВ Сериал',
       nextEpisode: null,
       image: 'https://via.placeholder.com/300x420/33C3F0/FFFFFF?text=Demon+Slayer'
     },
     {
       id: 5,
       title: 'Моя геройская академия 7',
+      originalTitle: 'Boku no Hero Academia Season 7',
       genre: 'Экшен',
+      genres: ['Экшен', 'Фэнтези', 'Школа'],
       rating: 8.5,
       episodes: 20,
       currentEpisode: 12,
       status: 'ongoing',
+      year: 2024,
+      studio: 'Bones',
+      voice: ['AniLibria', 'Субтитры'],
+      type: 'ТВ Сериал',
       nextEpisode: '3 дня',
       image: 'https://via.placeholder.com/300x420/7E69AB/FFFFFF?text=My+Hero+Academia'
     },
     {
       id: 6,
       title: 'Токийские мстители',
+      originalTitle: 'Tokyo Revengers',
       genre: 'Драма',
+      genres: ['Драма', 'Экшен', 'Сёнен'],
       rating: 8.3,
       episodes: 24,
       currentEpisode: 18,
       status: 'ongoing',
+      year: 2023,
+      studio: 'LIDENFILMS',
+      voice: ['AniDUB', 'Субтитры'],
+      type: 'ТВ Сериал',
       nextEpisode: '5 дней',
       image: 'https://via.placeholder.com/300x420/9b87f5/FFFFFF?text=Tokyo+Revengers'
     }
@@ -234,13 +273,21 @@ const Index = () => {
                       </div>
                     </div>
                     <CardContent className="p-3">
-                      <h4 className="font-semibold text-sm mb-2 line-clamp-2">{anime.title}</h4>
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                        <span className="flex items-center">
-                          <Icon name="Star" className="mr-1 h-3 w-3 fill-yellow-500 text-yellow-500" />
+                      <h4 className="font-semibold text-sm mb-1 line-clamp-2">{anime.title}</h4>
+                      <p className="text-xs text-muted-foreground mb-2">{anime.year} • {anime.type}</p>
+                      <div className="flex items-center justify-between text-xs mb-2">
+                        <span className="flex items-center text-yellow-500">
+                          <Icon name="Star" className="mr-1 h-3 w-3 fill-yellow-500" />
                           {anime.rating}
                         </span>
-                        <span>{anime.genre}</span>
+                        <span className="text-muted-foreground">{anime.studio}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {anime.voice.slice(0, 2).map((v) => (
+                          <Badge key={v} variant="outline" className="text-xs px-1 py-0">
+                            {v}
+                          </Badge>
+                        ))}
                       </div>
                       {anime.currentEpisode < anime.episodes && (
                         <>
@@ -275,16 +322,26 @@ const Index = () => {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-lg mb-2">{anime.title}</h4>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <Badge variant="secondary">{anime.genre}</Badge>
-                          <Badge variant="outline" className="border-accent text-accent">
-                            <Icon name="Star" className="mr-1 h-3 w-3" />
+                        <h4 className="font-semibold text-lg mb-1">{anime.title}</h4>
+                        <p className="text-xs text-muted-foreground mb-2">{anime.originalTitle}</p>
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {anime.genres.slice(0, 3).map((g) => (
+                            <Badge key={g} variant="secondary" className="text-xs">{g}</Badge>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground mb-2">
+                          <span className="flex items-center text-yellow-500">
+                            <Icon name="Star" className="mr-1 h-3 w-3 fill-yellow-500" />
                             {anime.rating}
-                          </Badge>
-                          {anime.status === 'ongoing' && (
-                            <Badge className="bg-primary">Выходит</Badge>
-                          )}
+                          </span>
+                          <span>{anime.year}</span>
+                          <span>{anime.studio}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          <span className="text-xs text-muted-foreground mr-2">Озвучка:</span>
+                          {anime.voice.map((v) => (
+                            <Badge key={v} variant="outline" className="text-xs">{v}</Badge>
+                          ))}
                         </div>
                         <p className="text-sm text-muted-foreground mb-3">
                           Серия {anime.currentEpisode} из {anime.episodes}
@@ -321,18 +378,77 @@ const Index = () => {
 
         {activeTab === 'catalog' && (
           <div className="animate-fade-in">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold">Каталог аниме</h2>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  <Icon name="Filter" className="mr-2 h-4 w-4" />
-                  Фильтры
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Icon name="SlidersHorizontal" className="mr-2 h-4 w-4" />
-                  Сортировка
-                </Button>
+            </div>
+            
+            <div className="mb-6 space-y-4">
+              <div>
+                <p className="text-sm font-medium mb-2 text-muted-foreground">Жанры</p>
+                <div className="flex flex-wrap gap-2">
+                  {genres.map((genre) => (
+                    <Button 
+                      key={genre} 
+                      variant={selectedGenre === genre ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedGenre(selectedGenre === genre ? null : genre)}
+                      className="text-xs"
+                    >
+                      {genre}
+                    </Button>
+                  ))}
+                </div>
               </div>
+              
+              <div>
+                <p className="text-sm font-medium mb-2 text-muted-foreground">Озвучка</p>
+                <div className="flex flex-wrap gap-2">
+                  {['AniLibria', 'AniDUB', 'Субтитры'].map((voice) => (
+                    <Button 
+                      key={voice} 
+                      variant={selectedVoice === voice ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedVoice(selectedVoice === voice ? null : voice)}
+                      className="text-xs"
+                    >
+                      {voice}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <p className="text-sm font-medium mb-2 text-muted-foreground">Год выпуска</p>
+                <div className="flex flex-wrap gap-2">
+                  {['2024', '2023', '2022', '2021', '2020'].map((year) => (
+                    <Button 
+                      key={year} 
+                      variant={selectedYear === year ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedYear(selectedYear === year ? null : year)}
+                      className="text-xs"
+                    >
+                      {year}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              {(selectedGenre || selectedVoice || selectedYear) && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => {
+                    setSelectedGenre(null);
+                    setSelectedVoice(null);
+                    setSelectedYear(null);
+                  }}
+                  className="text-primary"
+                >
+                  <Icon name="X" className="mr-2 h-4 w-4" />
+                  Сбросить фильтры
+                </Button>
+              )}
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
               {animeList.map((anime, idx) => (
@@ -352,13 +468,21 @@ const Index = () => {
                     )}
                   </div>
                   <CardContent className="p-3">
-                    <h4 className="font-semibold text-sm mb-2 line-clamp-2">{anime.title}</h4>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span className="flex items-center">
-                        <Icon name="Star" className="mr-1 h-3 w-3 fill-yellow-500 text-yellow-500" />
+                    <h4 className="font-semibold text-sm mb-1 line-clamp-2">{anime.title}</h4>
+                    <p className="text-xs text-muted-foreground mb-2">{anime.year} • {anime.type}</p>
+                    <div className="flex items-center justify-between text-xs mb-2">
+                      <span className="flex items-center text-yellow-500">
+                        <Icon name="Star" className="mr-1 h-3 w-3 fill-yellow-500" />
                         {anime.rating}
                       </span>
-                      <span>{anime.genre}</span>
+                      <span className="text-muted-foreground">{anime.studio}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {anime.voice.slice(0, 2).map((v) => (
+                        <Badge key={v} variant="outline" className="text-xs px-1 py-0">
+                          {v}
+                        </Badge>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
